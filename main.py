@@ -1,189 +1,261 @@
 from tkinter import *
 from tkinter import ttk
 
-root = Tk() 
+root = Tk()
 root.title("Programma Treeview - Treebase")
 root.iconbitmap('good.ico')
 root.geometry("1000x500")
 
-#add some style
-style = ttk.Style() 
+# add some style
+style = ttk.Style()
 
-#pick a theme
+# pick a theme
 style.theme_use('default')
 
-#configure the treeview colors
+# configure the treeview colors
 style.configure("Treeview",
                 background="#D3D3D3",
                 foreground="black",
-                roeheight=25,
+                rowheight=25,
                 fieldbackground="#D3D3D3")
 
-#Change Selected Color
+# Change Selected Color
 style.map('Treeview',
           background=[('selected', "#347083")])
 
-#crete a treeview frame
+# create a treeview frame
 tree_frame = Frame(root)
 tree_frame.pack(pady=10)
 
-#create a Treeview Scrollbar
+# create a Treeview Scrollbar
 tree_scroll = Scrollbar(tree_frame)
 tree_scroll.pack(side=RIGHT, fill=Y)
-#create the treeview
+# create the treeview
 my_tree = ttk.Treeview(tree_frame, yscrollcommand=tree_scroll.set, selectmode="extended")
-my_tree.pack() 
+my_tree.pack()
 
-#configure the Scrollbar
+# configure the Scrollbar
 tree_scroll.config(command=my_tree.yview)
 
-#define our Columns
+# define our Columns
 my_tree['columns'] = ("First Name", "Last Name", "ID", "Address", "City", "State", "Zipcode")
 
-#format our columns
+# format our columns
 my_tree.column("#0", width=0, stretch=NO)
-my_tree.colum("First Name", anchor=W, width=140)
-my_tree.colum("Last Name", anchor=W, width=140)
-my_tree.colum("ID", anchor=CENTER, width=140)
-my_tree.colum("Address", anchor=W, width=140)
-my_tree.colum("City", anchor=W, width=140)
-my_tree.colum("State", anchor=W, width=140)
-my_tree.colum("Last Name", anchor=W, width=140)
-my_tree.colum("Zipcode", anchor=CENTER, width=140)
+my_tree.column("First Name", anchor=W, width=140)
+my_tree.column("Last Name", anchor=W, width=140)
+my_tree.column("ID", anchor=CENTER, width=140)
+my_tree.column("Address", anchor=W, width=140)
+my_tree.column("City", anchor=W, width=140)
+my_tree.column("State", anchor=W, width=140)
+my_tree.column("Zipcode", anchor=CENTER, width=140)
 
-#create headings
+# create headings
 my_tree.heading("#0", text="", anchor=W)
-my_tree.heading("First Name", text="", anchor=W)
-my_tree.heading("Last Name", text="", anchor=W)
-my_tree.heading("ID", text="", anchor=CENTER)
-my_tree.heading("Addrees", text="", anchor=CENTER)
-my_tree.heading("City", text="", anchor=CENTER)
-my_tree.heading("State", text="", anchor=CENTER)
+my_tree.heading("First Name", text="First Name", anchor=W)
+my_tree.heading("Last Name", text="Last Name", anchor=W)
+my_tree.heading("ID", text="ID", anchor=CENTER)
+my_tree.heading("Address", text="Address", anchor=CENTER)
+my_tree.heading("City", text="City", anchor=CENTER)
+my_tree.heading("State", text="State", anchor=CENTER)
 my_tree.heading("Zipcode", text="Zipcode", anchor=CENTER)
 
-#add fake data
+# add fake data
+data = [
+    
+['Ashley', 'Ramos', 4408, '043 Laurie Club', 'Hernandezfort', 'Indiana', '32641'],
+['Kimberly', 'Baker', 5279, '849 Santiago Mountain', 'Floresberg', 'Tennessee', '66406'],
+['Tammie', 'Thomas', 4402, '3943 Christian Spurs', 'Bauerport', 'Alabama', '93121'],
+['Latoya', 'Martinez', 3644, '6862 Lee Brook Suite 909', 'Alishire', 'Oklahoma', '89350'],
+['Angela', 'Ward', 6724, '3307 Victor Spur', 'East Jamesborough', 'Rhode Island', '43102'],
+['Jake', 'Martinez', 6757, '05862 Zachary Mills Apt. 679', 'Boyerport', 'Maryland', '70494'],
+['Christopher', 'Palmer', 5650, '381 Wendy Estates Suite 025', 'North Matthewmouth', 'Massachusetts', '66601'],
+['Amanda', 'Barr', 5603, '204 Kristen Trace', 'Brownmouth', 'Missouri', '68504'],
+['Brooke', 'Lucas', 6102, '094 Joshua Mission', 'South Patricia', 'California', '60622'],
+['Brenda', 'Hicks', 1429, '7553 Stephanie Glen', 'Lake Jerryburgh', 'New Mexico', '27318'],
+['Kimberly', 'Gibbs', 9512, '58802 Jesse Haven', 'South Kennethberg', 'Hawaii', '61566'],
+['Patrick', 'Hill', 4349, '5510 Garcia Shore', 'Jonesborough', 'Massachusetts', '23489'],
+['Samantha', 'Donaldson', 5218, '1708 Evans Knoll Apt. 347', 'Ryanborough', 'Alabama', '48621'],
+['Joshua', 'Cruz', 2946, '229 Wallace Green Apt. 516', 'New Kimberly', 'Washington', '23270'],
+['Mark', 'Harris', 4696, '512 Andrew Loop', 'Stephenhaven', 'Illinois', '33190'],
+['Steven', 'Taylor', 6690, '4269 Daniel Turnpike', 'Aaronfurt', 'Alabama', '41252'],
+['Julie', 'Stark', 2546, '37098 Erin Creek', 'New Chelseaville', 'Delaware', '86629'],
+['Richard', 'Gillespie', 4108, '702 Williams Mountain', 'Velazquezfort', 'New Mexico', '93363'],
+['Toni', 'Logan', 2333, '4961 Hoffman Isle Suite 340', 'New Aaronborough', 'Georgia', '34000'],
+['Angela', 'Woodard', 2845, '7640 Johnson Grove Apt. 898', 'Davidport', 'Arkansas', '18135'],
+['Catherine', 'Huang', 3406, '4261 Costa Knolls', 'North Michele', 'Iowa', '59539'],
+['Jerry', 'Harmon', 8678, '8853 Madison Underpass Apt. 189', 'West Alyssa', 'Oklahoma', '93347'],
+['Michael', 'Rodriguez', 6819, '962 Skinner Lake', 'Lake Matthew', 'Alaska', '93523'],
+['Barbara', 'Gray', 9624, '5746 Bell Passage', 'New Nathanborough', 'Kansas', '78033'],
+['Karen', 'Davis', 9407, '924 Zachary Club', 'Port Clintonbury', 'Illinois', '87043'],
+['Kathleen', 'Moore', 1963, '071 Karen Locks', 'South Brianton', 'Hawaii', '59555'],
+['Brad', 'Vasquez', 6398, '397 Stephen Highway Apt. 450', 'Hayleymouth', 'Washington', '13141'],
+['Eduardo', 'Bentley', 6697, '0234 Timothy Stravenue', 'New Matthew', 'Connecticut', '86435'],
+['Jessica', 'Johnson', 1537, '10073 Roberts Shores Suite 844', 'Port Kathryn', 'Maine', '52448'],
+['Alexandra', 'Jones', 5292, '6343 Serrano Shoal Apt. 517', 'Karenshire', 'Washington', '23650'],
+['Luke', 'Howard', 7276, '703 Lee Drive Suite 545', 'Lake Ian', 'Illinois', '53186'],
+['Charles', 'Ho', 3285, '44381 Shannon Village', 'New Paul', 'South Dakota', '59257'],
+['Victor', 'Knight', 6216, '4732 Reed Estate Suite 906', 'South Thomas', 'Idaho', '25736'],
+['Brian', 'Gibson', 3934, '65221 Kiara Flat', 'South Linda', 'Ohio', '31198'],
+['Rebecca', 'Hartman', 4833, '631 Miller Keys Apt. 230', 'Port Katherine', 'Pennsylvania', '99470'],
+['Cody', 'Roberts', 7781, '59831 Joyce Club Suite 288', 'East Gregorybury', 'Mississippi', '58828'],
+['Matthew', 'Small', 9810, '58134 Garcia Parkways', 'Bethanyfort', 'Wyoming', '57154'],
+['Nicole', 'Martin', 6572, '485 Matthew Fall', 'East Jameshaven', 'New Jersey', '53750'],
+['Rose', 'Crane', 9306, '184 King Expressway Suite 655', 'Allentown', 'Indiana', '15019'],
+['Christopher', 'Villarreal', 1443, '369 Rivera Ramp Suite 639', 'South Hannah', 'Virginia', '37261'],
+['Lisa', 'Hill', 7908, '038 Paul Road', 'Johnsonton', 'Washington', '07368'],
+['Crystal', 'Jackson', 9676, '9445 Curtis Estates Suite 882', 'Walshville', 'Illinois', '92584'],
+['Angela', 'Wilson', 4971, '344 Sanchez View', 'Hallfurt', 'Michigan', '38059'],
+['Victoria', 'Jennings', 8549, '162 Cynthia Summit Apt. 445', 'Reidberg', 'North Dakota', '48701'],
+['Brittany', 'Calderon', 1523, '9730 Tara Mountains Apt. 119', 'North Nicholas', 'Georgia', '32008'],
+['Justin', 'Valentine', 2678, '0644 Brenda Run Apt. 021', 'New Timothy', 'Vermont', '24936'],
+['Gary', 'Robles', 6550, '217 Jarvis Fort', 'Theodoremouth', 'Texas', '01925'],
+['Ronald', 'Flores', 5624, '371 Jones Mission', 'Port Chelseyfort', 'South Dakota', '18361'],
+['Laura', 'Brooks', 9013, '4449 Denise Locks Suite 073', 'Lake Matthewstad', 'Wyoming', '90124'],
+['David', 'Hunt', 6232, '75408 Megan Neck Apt. 225', 'Port Kevin', 'Montana', '62897'],
+['Leslie', 'Brown', 2591, '3366 Klein Forges Suite 992', 'Clayside', 'Delaware', '15917'],
+['Jennifer', 'Burnett', 2335, '75508 Laura Curve', 'Smithmouth', 'New Hampshire', '06874'],
+['Jeremy', 'Nguyen', 2929, '22587 Thomas Mountains', 'Michaelville', 'Minnesota', '39967'],
+['Douglas', 'Rowland', 4853, '564 Jessica Summit Apt. 443', 'Richardfort', 'Arkansas', '12412'],
+['Heather', 'Wolf', 8783, '78420 Deborah Streets', 'Lunaside', 'Idaho', '42415'],
+['Ryan', 'James', 9891, '22861 Nichols Dale', 'Kimberlybury', 'Wisconsin', '48191'],
+['Lynn', 'Maldonado', 4260, '0472 Richardson Center Suite 667', 'South Codybury', 'Missouri', '72223'],
+['Patricia', 'Brown', 7628, '63843 Howard Burgs Suite 195', 'North Bradleyhaven', 'Indiana', '93304'],
+['Sharon', 'Villegas', 8366, '023 Alexis Mountains Suite 585', 'North Brian', 'Nebraska', '47250'],
+['Jared', 'Parsons', 9028, '06300 Chad Roads', 'Jamesshire', 'Illinois', '07081'],
+['Pamela', 'Mcmillan', 2214, '8305 Davis Inlet Suite 198', 'Port Tiffany', 'Kansas', '36435'],
+['Brandy', 'Santos', 5423, '1463 Meyer Spur Apt. 953', 'Port Karaborough', 'Nebraska', '56513'],
+['Stacy', 'Ware', 2397, '931 Savannah Squares', 'East William', 'North Carolina', '55356'],
+['Eric', 'Mays', 8838, '40677 Green Rest', 'West Williamstad', 'Maryland', '73153'],
+['Peter', 'Blake', 2045, '66818 Duffy Forges', 'Mooreville', 'Virginia', '47108'],
+['Wendy', 'Nelson', 2277, '163 Mary Loaf Suite 196', 'Port Matthewhaven', 'Virginia', '59038'],
+['Chad', 'Romero', 2489, '42810 Emily Lock Apt. 412', 'South James', 'Kansas', '35904'],
+['Robyn', 'Roberts', 2317, '4016 Julia Throughway Apt. 273', 'North Sarah', 'Oregon', '48454'],
+['Patricia', 'Conway', 9425, '132 Ruiz Fields', 'West Gregoryview', 'South Dakota', '91500'],
+['Nicole', 'Strickland', 2990, '41864 Daniel Row', 'West John', 'Idaho', '97075'],
+['Tyler', 'Roberts', 5664, '3611 Smith Glens Apt. 366', 'Johnfurt', 'Pennsylvania', '90110'],
+['Eric', 'Hill', 1033, '8435 Stephen Courts Apt. 210', 'Clarkton', 'Utah', '51202'],
+['James', 'Pope', 9547, '7362 Juan Island', 'South Erinmouth', 'Texas', '71709'],
+['Sheila', 'Blake', 4095, '35181 Williams Radial Apt. 339', 'New Kristinport', 'Texas', '99511'],
+['Heather', 'Shelton', 7547, '6954 Foley Stravenue Suite 256', 'East Justin', 'Mississippi', '22520'],
+['Olivia', 'Jenkins', 6777, '4223 Robles Oval Suite 264', 'Port Michaelland', 'Pennsylvania', '15336'],
+['Anna', 'Gonzales', 2627, '90513 Smith Plain', 'South David', 'Missouri', '11735'],
+['Tina', 'Beasley', 3463, '248 Donald Turnpike', 'Angelaland', 'Iowa', '32055'],
+['Stacy', 'Welch', 8983, '7206 Tammy Ports', 'Delgadofurt', 'Maryland', '33789'],
+['Becky', 'Miller', 1729, '3128 Kristin Springs', 'Bowenview', 'Missouri', '12639'],
+['Amber', 'Poole', 3689, '5066 Trevino Lodge Suite 645', 'New Susan', 'Michigan', '60686'],
+['Paul', 'Taylor', 1899, '6610 Morrison Points Apt. 476', 'Williamville', 'Oregon', '31752'],
+['Sean', 'Lambert', 5510, '43812 Haley Way', 'Adamsbury', 'Louisiana', '38150'],
+['Christina', 'Mitchell', 4806, '8232 John Squares Apt. 196', 'East Michaelmouth', 'Idaho', '42686'],
+['Morgan', 'Mccullough', 6402, '250 Garrison Dam', 'Conwayberg', 'Maryland', '38784'],
+['Kimberly', 'Garza', 6220, '9493 Melissa Islands', 'South Pennyberg', 'Louisiana', '08975'],
+['Cheryl', 'Day', 1802, '4023 Amy Dale Apt. 037', 'Port Kristina', 'Wyoming', '04308'],
+['Catherine', 'Flores', 6708, '5748 Jacob Trace Suite 165', 'Christopherborough', 'South Carolina', '69816'],
+['Crystal', 'Ferguson', 3927, '7957 Matthew Flat', 'North Joshuaborough', 'Hawaii', '95369'],
+['Karen', 'Cortez', 4412, '423 Buchanan Square', 'South Tammytown', 'Oregon', '06687'],
+['Ann', 'Arias', 8228, '1364 Cassie Union', 'Wilsonburgh', 'Indiana', '63907'],
+['Michael', 'Lawrence', 1979, '97882 Bobby Port', 'East Michaelview', 'Kansas', '26554'],
+['Micheal', 'Hill', 7404, '6358 David Locks', 'New Bill', 'Washington', '97768'],
+['Lucas', 'Schultz', 5460, '15890 Vanessa Corner', 'Emilyton', 'Alaska', '00714'],
+['Andrew', 'Jacobs', 3786, '61035 Webster Flats Apt. 500', 'South Jonathonfurt', 'Pennsylvania', '74442'],
+['James', 'Smith', 1955, '161 Ethan Mountain Suite 039', 'Wernerton', 'Vermont', '85058'],
+['Lindsay', 'Allen', 2808, '64343 Barnett Union', 'Allenberg', 'New York', '50725'],
+['Tamara', 'Osborne', 5145, '378 Justin Squares Apt. 264', 'Christopherberg', 'South Dakota', '29096'],
+['Jill', 'Myers', 6621, '4936 Shah Spur Apt. 068', 'South Linda', 'Maryland', '45539'],
+['Robin', 'Chapman', 6386, '11499 Fernandez Turnpike Suite 649', 'South Zacharyburgh', 'Oregon', '49200'],    
+]
 
-data = ["Tina","Walton", 20, "654 Stree Ave.", "Chicago","Illinois",20020 ]
-['Jeremy', 'Butler', 8804, '1182 Tiffany Mews Apt. 620', 'Weaverburgh', 'Colorado', '40543']
-['Leslie', 'Webb', 2973, '12642 Sanchez Prairie', 'Port Scott', 'New Jersey', '06314']
-['Jorge', 'Barr', 9149, '70550 Mike Streets Apt. 323', 'Port Kelly', 'Illinois', '42062']
-['Brett', 'Sawyer', 1301, '213 Colleen Street Suite 898', 'Lake Robert', 'California', '75145']
-['Robert', 'Wilson', 8134, '904 Vanessa Courts Apt. 843', 'New Lesliemouth', 'Virginia', '75590']
-['Scott', 'Mercer', 2462, '06532 Darren Highway', 'Port Crystal', 'Louisiana', '47762']
-['Nicole', 'Miller', 6018, '04490 William Manors', 'Fletcherhaven', 'Oregon', '14095']
-['Austin', 'Brown', 8266, '023 Williams Burgs Apt. 936', 'Clarkfort', 'Washington', '31534']
-['Richard', 'French', 5808, '868 Moran Pike Suite 182', 'Ellisland', 'West Virginia', '01525']
-['Karen', 'Wood', 4372, '164 Craig Landing Apt. 214', 'East Tamara', 'Hawaii', '29775']
-['Michael', 'Thomas', 6546, '3899 Hoffman Mission Apt. 575', 'Hillview', 'New Jersey', '48695']
-['Yvonne', 'Schmidt', 1601, '684 Vincent Ridges', 'Port Christopher', 'West Virginia', '73517']
-['James', 'Thomas', 7901, '09707 Jeffrey Extension', 'Kevinfurt', 'Virginia', '42255']
-['Kevin', 'Kirby', 8743, '970 Dean Brooks', 'West Johnborough', 'Ohio', '73334']
-['Sandra', 'Edwards', 2395, '7825 Nash Motorway Apt. 726', 'Mcintyremouth', 'New Hampshire', '89652']
-['Jeff', 'Brooks', 6171, '31729 Ricky Way', 'West Markfort', 'Rhode Island', '18783']
-['Brittany', 'Shaw', 3911, '20423 Baxter Ramp', 'West Barbara', 'Missouri', '75806']
-['Ronald', 'Johnson', 6305, '6871 James Estates Suite 062', 'Bryantberg', 'Idaho', '16458']
-['Jordan', 'Parker', 3371, '51380 Michael Knolls', 'Port Amychester', 'Illinois', '41739']
-['John', 'Edwards', 2918, '72672 Curry Path', 'Ericaborough', 'Louisiana', '21366']
-['Diane', 'Davis', 1598, '8236 Andrew Mountain Suite 002', 'Kingfurt', 'Indiana', '86279']
-['Paul', 'Martinez', 9161, '304 Phillips Viaduct Apt. 614', 'Juarezstad', 'Wyoming', '34156']
-['Michelle', 'Scott', 1663, '500 Jeffrey Knolls Suite 046', 'North Wanda', 'Delaware', '76322']
-['Kimberly', 'Obrien', 1040, '837 Alexander Park Suite 036', 'Bishopside', 'Idaho', '89980']
-['Manuel', 'Randall', 6884, '886 Ball Centers Apt. 400', 'Mariahborough', 'Kentucky', '10514']
-['Aaron', 'Smith', 9967, '46732 Justin Mews', 'Olsonton', 'Michigan', '93765']
-['Richard', 'Romero', 9019, '2749 Tate Loaf', 'Matthewsfort', 'Ohio', '91678']
-['Valerie', 'Barnes', 8974, '989 Robert Union', 'Torresview', 'Florida', '49814']
-['Robert', 'Holloway', 2549, '39861 Johnson Knolls', 'New Jose', 'New York', '17455']
-['Christine', 'Smith', 4123, '507 Sandra Garden Suite 636', 'Darrellborough', 'Minnesota', '05091']
-['Catherine', 'Stevens', 3432, '899 Rhonda Cape Suite 345', 'Kimville', 'Illinois', '58305']
-['Karen', 'Whitaker', 4612, '750 Roberta Ranch Suite 335', 'Richardsonberg', 'Virginia', '51242']
-['Lori', 'Lee', 8925, '402 Ian Isle', 'Georgemouth', 'Maryland', '59952']
-['Ashley', 'Grant', 9063, '97512 Amanda Lane', 'South Matthew', 'Indiana', '41475']
-['Todd', 'Horn', 8585, '30747 Daugherty Estate Suite 332', 'Rubiostad', 'South Dakota', '07799']
-['Alexander', 'Howard', 8953, '88823 Thomas Locks', 'Beasleyside', 'Delaware', '39647']
-['David', 'Matthews', 4672, '5521 Sanders Center', 'Ashleyhaven', 'Kentucky', '96362']
-['Cassandra', 'Serrano', 8792, '34998 Hunt Camp Suite 327', 'Sanchezville', 'Illinois', '58318']
-['Nicole', 'Pham', 9416, '196 Mcdaniel Island Suite 779', 'Gonzalesborough', 'Tennessee', '68468']
-['William', 'Graham', 9082, '97144 Roy Meadow', 'Port Brandon', 'Arizona', '91189']
-['Megan', 'Chen', 4756, '81221 Williams Overpass Suite 644', 'Lake Robertfurt', 'Oregon', '75574']
-['Tricia', 'Hall', 9847, '46186 Molina Lane', 'Stevensonhaven', 'Michigan', '74895']
-['Rita', 'Gray', 8672, '675 Donald Circle Suite 661', 'Port Joannfurt', 'North Carolina', '53560']
-['Linda', 'Burns', 2936, '96683 Ferguson Ramp', 'Fisherside', 'South Carolina', '62697']
-['Jeffrey', 'Stevens', 8073, '28868 Hicks Fort Suite 525', 'Morrisonside', 'Rhode Island', '17246']
-['Benjamin', 'Castillo', 5890, '13651 Ann Roads Suite 430', 'West Brian', 'Arkansas', '11568']
-['Lisa', 'Sweeney', 8892, '9102 Hodge Lodge', 'Rebeccaside', 'Arkansas', '59299']
-['Mark', 'Gutierrez', 1592, '555 Jennifer Plains Suite 369', 'New Briannabury', 'Colorado', '25526']
-['Cynthia', 'Sanchez', 6669, '38224 Le Shores', 'West Jamesmouth', 'Pennsylvania', '22951']
-['Ricky', 'Reyes', 4261, '0092 Marie Lakes', 'Port Andrea', 'Tennessee', '35097']
-['Lauren', 'Miller', 9376, '57585 Cassandra Rapids', 'Georgebury', 'Michigan', '13976']
-['Joseph', 'Mitchell', 5224, '10560 Scott Falls', 'East James', 'Oregon', '74332']
-['Meghan', 'Abbott', 8030, '941 Teresa Street', 'New Richard', 'Indiana', '48702']
-['Johnathan', 'Scott', 2413, '710 Krystal Locks', 'Weaverstad', 'South Carolina', '52478']
-['John', 'Miller', 9874, '6193 Proctor Way Apt. 454', 'Port Tiffany', 'Florida', '98434']
-['Chad', 'Lucas', 7729, '59245 Patrick Way Suite 535', 'Barrstad', 'Montana', '55209']
-['Whitney', 'Alvarez', 5364, '728 Francis Flat Apt. 262', 'Traciefort', 'Nevada', '53307']
-['Michael', 'Hays', 1412, '437 Diana Road', 'West Katherinechester', 'Vermont', '79432']
-['Robert', 'Turner', 8867, '5932 Deborah Curve', 'Rosetown', 'South Carolina', '34281']
-['Richard', 'Turner', 9116, '479 Francisco Isle', 'South Mary', 'Kentucky', '20270']
-['Christopher', 'Patterson', 1760, '629 Richard Tunnel', 'Brendafurt', 'Arizona', '45343']
-['Megan', 'Sanders', 8679, '560 Buck Trace Suite 699', 'West Suzannehaven', 'Utah', '11404']
-['Roy', 'Gallagher', 9883, '6976 Wong Village Apt. 158', 'Johnstonshire', 'Hawaii', '21483']
-['Brandon', 'Chen', 2059, '85501 Shannon Lock Apt. 371', 'Fieldsmouth', 'Georgia', '61307']
-['Jay', 'Hammond', 5500, '0516 Morris Club', 'West Noahtown', 'Alabama', '82741']
-['Lisa', 'Fields', 9593, '5231 Taylor Union Apt. 607', 'Port Paul', 'Tennessee', '02004']
-['Maria', 'Parker', 2139, '0687 Edward Track', 'South Timothystad', 'New Hampshire', '82831']
-['Donna', 'White', 8355, '1424 Stephanie Mountains Suite 719', 'East Derek', 'Wisconsin', '50219']
-['Cynthia', 'Ross', 8043, '9452 Karen Knoll Apt. 783', 'Danielberg', 'Tennessee', '94070']
-['Amy', 'Brock', 8549, '49127 Ross Summit', 'Lisaberg', 'Tennessee', '12275']
-['Daniel', 'Thompson', 5885, '70983 Amanda Grove Suite 594', 'Lewisview', 'New Mexico', '81904']
-['Mark', 'Diaz', 8968, '94307 Brooks Meadows Apt. 737', 'East Suzanne', 'Michigan', '68521']
-['Daniel', 'Barron', 4082, '6287 Brown Motorway Suite 991', 'Amandastad', 'Connecticut', '31003']
-['Brian', 'Hansen', 6919, '352 Ramirez Crescent', 'North Davidside', 'Michigan', '67856']
-['Daniel', 'Krause', 1664, '096 Davis Creek Apt. 081', 'South Jenniferview', 'New Mexico', '85482']
-['Angela', 'Carter', 7498, '51198 Wilson Forest', 'North Stacy', 'North Dakota', '74186']
-['Thomas', 'Griffith', 2311, '3161 Keith Crescent', 'North Caitlynside', 'Oklahoma', '25803']
-['Debra', 'Williamson', 2842, '59189 Leslie Trail', 'New Adamport', 'North Dakota', '43185']
-['David', 'Sandoval', 4775, '58679 Ortega Street Apt. 372', 'Tracyton', 'Oklahoma', '42375']
-['Victoria', 'Townsend', 5325, '6783 Adam Court Apt. 889', 'Parkerchester', 'Oregon', '64828']
-['Katherine', 'Morris', 3380, '739 Hale Lights', 'North Erichaven', 'Indiana', '64810']
-['Anne', 'Torres', 4401, '1169 Luis Place Apt. 042', 'Katherineshire', 'New York', '46213']
-['Deborah', 'Parker', 3938, '9966 Hernandez Dam Apt. 438', 'East Christopherchester', 'New Mexico', '13015']
-['Brenda', 'Berry', 5089, '418 Duran Ports', 'Bennettton', 'Wyoming', '92189']
-['Roger', 'Frazier', 4969, '3209 Kyle Meadows', 'Deanburgh', 'Wyoming', '83162']
-['Sharon', 'Garcia', 1160, '23923 Peterson Camp Suite 622', 'North Ryan', 'Tennessee', '19866']
-['Latoya', 'Townsend', 7744, '22584 Ashley Expressway Suite 502', 'Campbellstad', 'Indiana', '57359']
-['Adam', 'Thomas', 8322, '1498 Cunningham Summit', 'East Mary', 'Montana', '81599']
-['Donna', 'Anderson', 5051, '4558 Long Vista', 'Williamville', 'Colorado', '17218']
-['Carlos', 'Martinez', 6496, '463 Marc Divide Suite 744', 'Brandychester', 'Nevada', '54576']
-['Christopher', 'Kim', 9079, '798 Benson Point', 'Mooreburgh', 'Georgia', '19986']
-['Wanda', 'Martin', 5175, '2210 Anthony Street Suite 847', 'Nicoleview', 'Illinois', '06042']
-['Rachael', 'Daniel', 1907, '2424 Brown Orchard', 'Audreychester', 'Florida', '37019']
-['Daniel', 'Thomas', 6396, '100 Amy Plains Suite 823', 'East Jasmine', 'Nebraska', '60581']
-['Calvin', 'Gomez', 1075, '42916 Brown Greens Apt. 182', 'Jessicaport', 'West Virginia', '29340']
-['Alicia', 'Norman', 5375, '1630 Ernest Path', 'Teresaland', 'Louisiana', '70880']
-['Matthew', 'Sellers', 9276, '4104 Joshua Road', 'Johnsonmouth', 'Maryland', '38562']
-['Randall', 'Harris', 4441, '361 Tina Mountain', 'North Susan', 'Pennsylvania', '56457']
-['John', 'Martin', 9252, '15149 Manning Fords Apt. 208', 'Port Tracyburgh', 'Oklahoma', '19253']
-['Brandi', 'Simpson', 9086, '20035 Griffith Skyway Suite 614', 'New David', 'Ohio', '96976']
 
-#create striped row tags
+
+
+
+
+# create striped row tags
 my_tree.tag_configure('oddrow', background="white")
 my_tree.tag_configure('evenrow', background="lightblue")
 
-#Add our data to the screen
-global count
+# Add our data to the screen
 count = 0
-
 for record in data:
     if count % 2 == 0:
-        my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5]), tags=('evenrow',))
+        my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('evenrow',))
     else:
-         my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5]), tags=('oddrow',))
-    # 
-#add record entry boxes 
+        my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('oddrow',))
+    count += 1
+
+# add record entry boxes
+data_frame = LabelFrame(root, text="Record")
+data_frame.pack(fill="x", expand="yes", padx=20)
+
+fn_label = Label(data_frame, text="First Name")
+fn_label.grid(row=0, column=0, padx=10, pady=10)
+fn_entry = Entry(data_frame)
+fn_entry.grid(row=0, column=1, padx=10, pady=10)
 
 
-#add buttons
+ln_label = Label(data_frame, text="Last Name")
+ln_label.grid(row=0, column=2, padx=10, pady=10)
+ln_entry = Entry(data_frame)
+ln_entry.grid(row=0, column=3, padx=10, pady=10)
 
 
-root.mainloop() 
+id_label = Label(data_frame, text="ID")
+id_label.grid(row=0, column=4, padx=10, pady=10)
+id_entry = Entry(data_frame)
+id_entry.grid(row=0, column=5, padx=10, pady=10)
 
+address_label = Label(data_frame, text="Address")
+address_label.grid(row=1, column=0, padx=10, pady=10)
+address_entry = Entry(data_frame)
+address_entry.grid(row=1, column=1, padx=10, pady=10)
+
+
+city_label = Label(data_frame, text="First Name")
+city_label.grid(row=1, column=2, padx=10, pady=10)
+city_entry = Entry(data_frame)
+city_entry.grid(row=1, column=3, padx=10, pady=10)
+
+
+state_label = Label(data_frame, text="First Name")
+state_label.grid(row=1, column=4, padx=10, pady=10)
+state_entry = Entry(data_frame)
+state_entry.grid(row=1, column=5, padx=10, pady=10)
+
+zipcode_label = Label(data_frame, text="First Name")
+zipcode_label.grid(row=1, column=6, padx=10, pady=10)
+zipcode_entry = Entry(data_frame)
+zipcode_entry.grid(row=1, column=7, padx=10, pady=10)
+
+
+
+# add buttons
+button_frame = LabelFrame(root, text="Commands")
+button_frame.pack(fill="x", expand="yes", padx=20)
+
+update_button = Button(button_frame, text="Update")
+update_button.grid(row=0, column=0, padx=10, pady=10)
+
+add_button = Button(button_frame, text="Add")
+add_button.grid(row=0, column=1, padx=10, pady=10)
+
+remove_all_button = Button(button_frame, text="Remove")
+remove_all_button.grid(row=0, column=2, padx=10, pady=10)
+
+remove_one_button = Button(button_frame, text="Remove one")
+remove_one_button.grid(row=0, column=3, padx=10, pady=10)
+
+remove_many_button = Button(button_frame, text="Remove many")
+remove_many_button.grid(row=0, column=4, padx=10, pady=10)
+
+move_up_button = Button(button_frame, text="Move Up")
+move_up_button.grid(row=0, column=5, padx=10, pady=10)
+
+move_down_button = Button(button_frame, text="Move Down")
+move_down_button.grid(row=0, column=6, padx=10, pady=10)
+
+select_record_button = Button(button_frame, text="Select")
+select_record_button.grid(row=0, column=7, padx=10, pady=10)
+
+
+
+root.mainloop()

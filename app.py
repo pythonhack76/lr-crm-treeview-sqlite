@@ -178,12 +178,20 @@ my_tree.tag_configure('evenrow', background="lightblue")
 count = 0
 for record in data:
     if count % 2 == 0:
-        my_tree.insert(parent='', index='end', iid=count, text='', values=record, tags=('evenrow',))
+        my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2],record[3], record[4],record[5], record[6],tags=('evenrow',))
     else:
-        my_tree.insert(parent='', index='end', iid=count, text='', values=record, tags=('oddrow',))
+        my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2],,record[3], record[4],record[5], record[6],tags=('oddrow',))
     count += 1
 
 # add record entry boxes 
+data_frame = LabelFrame(root, text="Record")
+data_frame.pack(fill="x", expand="yes", padx=20)
+
+fn_label = Label(data_frame, text="First Name")
+fn_label.grid(row=0, column=0, padx=10, pady=10)
+fn_entry = Entry(data_frame)
+fn_entry.grid(row=0, column=1, padx=10, pady=10)
+
 
 # add buttons
 
