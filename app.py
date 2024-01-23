@@ -166,7 +166,7 @@ data = [
 ['Robin', 'Chapman', 6386, '11499 Fernandez Turnpike Suite 649', 'South Zacharyburgh', 'Oregon', '49200'],    
 ]
 
-data = ["Tina","Walton", 20, "654 Stree Ave.", "Chicago","Illinois",20020 ]
+
 data_with_commas = [str(item) + ',' for item in data]
 print(data_with_commas)
 
