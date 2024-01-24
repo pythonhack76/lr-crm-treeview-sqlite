@@ -226,6 +226,61 @@ zipcode_label.grid(row=1, column=6, padx=10, pady=10)
 zipcode_entry = Entry(data_frame)
 zipcode_entry.grid(row=1, column=7, padx=10, pady=10)
 
+#Move Row Up
+def up():
+    rows = my_tree.selection()
+    for row in rows:
+        my_tree.move(row, my_tree.parent(row), my_tree.index(row)-1)
+
+#Move run Down
+def down():
+    rows = my_tree.selection()
+    for row in reversed(rows):
+        my_tree.move(row, my_tree.parent(row), my_tree.index(row)+1)
+
+#remove one record
+def remove_one():
+    x = my_tree.selection()[0]
+    my_tree.delete(x)
+
+#CLear entry boxes
+def clear_entries():
+    #clear ENTRY 
+    fn_entry.delete(0, END)
+    ln_entry.delete(0, END)
+    id_entry.delete(0, END)
+    address_entry.delete(0, END)
+    city_entry.delete(0, END)
+    state_entry.delete(0, END)
+    zipcode_entry.delete(0, END)
+
+
+# select Record
+def select_record(e):
+    #clear ENTRY 
+    fn_entry.delete(0, END)
+    ln_entry.delete(0, END)
+    id_entry.delete(0, END)
+    address_entry.delete(0, END)
+    city_entry.delete(0, END)
+    state_entry.delete(0, END)
+    zipcode_entry.delete(0, END)
+
+    #grab record number
+    selected = my_tree.focus()
+    #Grab record values
+    values = my_tree.item(selected, 'values')
+
+    #output to entry boxes
+    fn_entry.insert(0, values[0])
+    ln_entry.insert(0, values[1])
+    id_entry.insert(0, values[2])
+    address_entry.insert(0, values[3])
+    city_entry.insert(0, values[4])
+    state_entry.insert(0, values[5])
+    zipcode_entry.insert(0, values[6])
+
+
 
 
 # add buttons
@@ -241,20 +296,23 @@ add_button.grid(row=0, column=1, padx=10, pady=10)
 remove_all_button = Button(button_frame, text="Remove")
 remove_all_button.grid(row=0, column=2, padx=10, pady=10)
 
-remove_one_button = Button(button_frame, text="Remove one")
+remove_one_button = Button(button_frame, text="Remove one", command=remove_one)
 remove_one_button.grid(row=0, column=3, padx=10, pady=10)
 
 remove_many_button = Button(button_frame, text="Remove many")
 remove_many_button.grid(row=0, column=4, padx=10, pady=10)
 
-move_up_button = Button(button_frame, text="Move Up")
+move_up_button = Button(button_frame, text="Move Up", command=up)
 move_up_button.grid(row=0, column=5, padx=10, pady=10)
 
-move_down_button = Button(button_frame, text="Move Down")
+move_down_button = Button(button_frame, text="Move Down", command=down)
 move_down_button.grid(row=0, column=6, padx=10, pady=10)
 
-select_record_button = Button(button_frame, text="Select")
+select_record_button = Button(button_frame, text="CLear Entry Boxes", command=clear_entries)
 select_record_button.grid(row=0, column=7, padx=10, pady=10)
+
+# bind the treeview
+my_tree.bind("<ButtonRelease-1>", select_record)
 
 
 
