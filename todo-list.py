@@ -9,7 +9,6 @@ root.iconbitmap('good.ico')
 root.geometry("1000x500")
 
 # add fake data
-'''
 data = [
     
 ['Ashley', 'Ramos', 4408, '043 Laurie Club', 'Hernandezfort', 'Indiana', '32641'],
@@ -114,13 +113,13 @@ data = [
 ['Robin', 'Chapman', 6386, '11499 Fernandez Turnpike Suite 649', 'South Zacharyburgh', 'Oregon', '49200'],    
 ]
 
-'''
+
 
 
 
 # some database stuff
 #create database or connect to one 
-conn = sqlite3.connect('tree_crm.db')
+conn = sqlite3.connect('tree_todolist.db')
 
 #create a cursor instance
 c = conn.cursor() 
@@ -137,7 +136,6 @@ c.execute("""CREATE TABLE if not exists customers (
     """)
 
 #add dummy data to table
-'''
 for record in data:
     c.execute("INSERT INTO customers VALUES (:first_name, :last_name, :id, :address, :city, :state, :zipcode)", 
             {
@@ -156,30 +154,16 @@ conn.commit()
 
 #close connection
 conn.close() 
-'''
+
 def query_database():
     conn = sqlite3.connect('tree_crm.db')
 
     #create a cursor instance 
     c = conn.cursor()
 
-    c.execute("SELECT rowid, * FROM customers")
+    c.execute("SELECT * FROM customers")
     records = c.fetchall()
-    #print(records) 
-    # Add our data to the screen
-    global count
-    count = 0
-
-    for record in records:
-        print(record)
-
-    for record in records:
-        if count % 2 == 0:
-            my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6], record[7]), tags=('evenrow',))
-        else:
-            my_tree.insert(parent='', index='end', iid=count, text='', values=(record[1], record[2], record[0], record[4], record[5], record[6], record[7]), tags=('oddrow',))
-        count += 1
-
+    print(records) 
 
     conn.commit()
     conn.close() 
@@ -243,6 +227,14 @@ my_tree.heading("Zipcode", text="Zipcode", anchor=CENTER)
 my_tree.tag_configure('oddrow', background="white")
 my_tree.tag_configure('evenrow', background="lightblue")
 
+# Add our data to the screen
+count = 0
+for record in data:
+    if count % 2 == 0:
+        my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('evenrow',))
+    else:
+        my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('oddrow',))
+    count += 1
 
 ############# add record entry boxes ################################
 data_frame = LabelFrame(root, text="Record")
@@ -402,8 +394,6 @@ select_record_button.grid(row=0, column=7, padx=10, pady=10)
 # bind the treeview
 my_tree.bind("<ButtonRelease-1>", select_record)
 
-#run to pull data from database on start
 query_database()
 
-if __name__ == "__main__":
-    root.mainloop()
+root.mainloop()
