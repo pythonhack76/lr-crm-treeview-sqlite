@@ -400,6 +400,34 @@ def update_record():
     state_entry.delete(0, END)
     zipcode_entry.delete(0, END)
 
+#add new record
+def add_record():
+    #aggiungi un nuovo record
+    conn = sqlite3.connect('tree_crm.db')
+
+    #creazione istanza
+    c = conn.cursor()
+
+    #aggiungi un nuovo record
+    c.execute("INSERT INTO customers VALUES (:first, :last, :id, :address, :city, :state, :zipcode)",
+              
+            {
+                'first': fn_entry.get(),
+                'last': ln_entry.get(),
+                'id': id_entry.get(),
+                'address': address_entry.get(),
+                'city': city_entry.get(),
+                'state': state_entry.get(),
+                'zipcode': zipcode_entry.get(),                
+            })
+
+    #committo operazione
+    c.commit()   
+
+    #chiudo connessione
+    c.close() 
+
+
 ################## add buttons #####################################
     
 button_frame = LabelFrame(root, text="Commands")
@@ -408,7 +436,7 @@ button_frame.pack(fill="x", expand="yes", padx=20)
 update_button = Button(button_frame, text="Update", command=update_record)
 update_button.grid(row=0, column=0, padx=10, pady=10)
 
-add_button = Button(button_frame, text="Add")
+add_button = Button(button_frame, text="Add", command=add_record)
 add_button.grid(row=0, column=1, padx=10, pady=10)
 
 remove_all_button = Button(button_frame, text="Remove All", command=remove_all)
