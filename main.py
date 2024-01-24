@@ -1,10 +1,11 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 
 root = Tk()
-root.title("Programma Treeview - Treebase")
+root.title("Treeview - Treebase - 2024 | Luca Rulvoni")
 root.iconbitmap('good.ico')
 root.geometry("1000x500")
 
@@ -271,18 +272,18 @@ address_entry = Entry(data_frame)
 address_entry.grid(row=1, column=1, padx=10, pady=10)
 
 
-city_label = Label(data_frame, text="First Name")
+city_label = Label(data_frame, text="City")
 city_label.grid(row=1, column=2, padx=10, pady=10)
 city_entry = Entry(data_frame)
 city_entry.grid(row=1, column=3, padx=10, pady=10)
 
 
-state_label = Label(data_frame, text="First Name")
+state_label = Label(data_frame, text="State")
 state_label.grid(row=1, column=4, padx=10, pady=10)
 state_entry = Entry(data_frame)
 state_entry.grid(row=1, column=5, padx=10, pady=10)
 
-zipcode_label = Label(data_frame, text="First Name")
+zipcode_label = Label(data_frame, text="ZIp Code")
 zipcode_label.grid(row=1, column=6, padx=10, pady=10)
 zipcode_entry = Entry(data_frame)
 zipcode_entry.grid(row=1, column=7, padx=10, pady=10)
@@ -300,9 +301,56 @@ def down():
         my_tree.move(row, my_tree.parent(row), my_tree.index(row)+1)
 
 #remove one record
+# def remove_one():
+    # x = my_tree.selection()[0]
+    # my_tree.delete(x)
+# 
+    # conn = sqlite3.connect('tree_crm.db')
+# 
+    # c = conn.cursor()
+# 
+    #delete from Database
+    # c.execute("DELETE from customers WHERE oid=" + id_entry.get())
+# 
+    # conn.commit()
+    # 
+    # conn.close() 
+# 
+    #clear 
+    # clear_entries() 
+    #add a message box for fun
+    # response = messagebox.askyesno("Attenzione","Desideri davvero cancellare articolo?")
+    # if response:
+        # messagebox.showinfo("Cancellato!", "il tuo record è stato cancellato.")
+    # else:
+        # pass 
 def remove_one():
-    x = my_tree.selection()[0]
-    my_tree.delete(x)
+    response = messagebox.askyesno("Attenzione", "Desideri davvero cancellare l'articolo?")
+    if response:
+        # Ottieni l'ID del record selezionato dal Treeview
+        selected_item = my_tree.selection()[0]  # Presupponendo che sia selezionato solo un elemento
+        selected_id = my_tree.item(selected_item, 'values')[2]  # Assicurati che l'indice corrisponda alla colonna ID nel tuo Treeview
+
+        # Connettiti al database e cancella il record
+        conn = sqlite3.connect('tree_crm.db')
+        c = conn.cursor()
+
+        # Query parametrizzata per prevenire SQL Injection
+        c.execute("DELETE FROM customers WHERE oid=?", (selected_id,))
+
+        conn.commit()
+        conn.close()
+
+        # Rimuovi il record dal Treeview
+        my_tree.delete(selected_item)
+
+        # Pulisci i campi di input
+        clear_entries()
+
+        # Mostra un messaggio di conferma
+        messagebox.showinfo("Cancellato!", "Il tuo record è stato cancellato.")
+
+
 
 #remove Many record
 def remove_many():
@@ -422,10 +470,27 @@ def add_record():
             })
 
     #committo operazione
-    c.commit()   
+    conn.commit()   
 
     #chiudo connessione
-    c.close() 
+    conn.close() 
+
+     #clear ENTRY 
+    fn_entry.delete(0, END)
+    ln_entry.delete(0, END)
+    id_entry.delete(0, END)
+    address_entry.delete(0, END)
+    city_entry.delete(0, END)
+    state_entry.delete(0, END)
+    zipcode_entry.delete(0, END)
+
+    # Clear the treeview Table
+
+    my_tree.delete(*my_tree.get_children()) 
+
+    #run to pull data from database on start
+    query_database() 
+
 
 
 ################## add buttons #####################################
